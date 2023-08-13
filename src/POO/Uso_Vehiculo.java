@@ -2,7 +2,7 @@ package POO;
 
 import javax.swing.*;
 
-public class Uso_Coche {
+public class Uso_Vehiculo {
 
     public static void main(String[] args) {
 

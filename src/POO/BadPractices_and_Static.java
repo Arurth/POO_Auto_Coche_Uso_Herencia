@@ -16,6 +16,11 @@ public class BadPractices_and_Static {
 
 
         Empleados[] lista_empleados = { empleado1, empleado2,empleado3};
+        for (Empleados empleados : lista_empleados){
+
+            
+
+        }
 
 
 

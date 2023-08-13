@@ -11,7 +11,7 @@ public class Coche {
     private int peso_total;
     private boolean asientos_cuero,climatizador;
 
-    public Coche(){ //Constructor
+    public Coche(){ //Constructor | Datos generales del vehiculo.
         ruedas = 4;
         largo = 2000;
         ancho = 300;
