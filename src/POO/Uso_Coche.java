@@ -1,6 +1,5 @@
 package POO;
 
-import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.*;
 
 public class Uso_Coche {
