@@ -28,6 +28,8 @@ public class Uso_Empleado {
 
             i++;
         } */
+        Jefatura jefe_RRHH = new Jefatura("Sergio", 1433.34,2023,6,27);
+        jefe_RRHH.estableceIncentivo(500.96);
 
         for (int i = 0 ; i < misEmpleados.length; i++){
 
@@ -52,6 +54,14 @@ public class Uso_Empleado {
                     " | Fecha de Alta: "+  datosEmpleados.dameFechaContrato());
 
         }
+
+        //Acá empleamos Sobrecarga (override) de constructores, así que teniamos que usar un nuevo empleado
+        //y ahora mismo el codigo funciona para pasar por todos los parametros, problemas de automatizacion
+        //Se podría poner un condicional para entrar en el Constructor que quiero, pero de momento lo dejare
+        //hardcodeado, si el codigo se agrada le colocare el condicional 😁
+
+        Empleados empleado_que_usa_otro_constructor =new Empleados("Juan");
+        empleado_que_usa_otro_constructor.dameFechaContrato();
     }
 }
 
@@ -59,21 +69,28 @@ class Empleados {
     private String nombre;
     private double sueldo;
     private Date altaContrato;
+    private static int idSiguiente;
+    private int id;
 
-    Empleados(String nombre, double sueldo, int anio, int mes, int dia) {
+    public Empleados(String nombre, double sueldo, int anio, int mes, int dia) {
         this.nombre = nombre;
         this.sueldo = sueldo;
         GregorianCalendar calendario = new GregorianCalendar(anio, mes, dia);
         altaContrato=calendario.getTime();
+        id = idSiguiente;
+        idSiguiente++;
 
+    }
+
+    public Empleados(String nombre){
+        this(nombre,3000,2000,1,1);
     }
 
     public String dameNombre(){
 
-        return nombre;
+        return nombre + " Id: " + id;
 
     }
-
     public double dameSueldo(){
 
         return sueldo;
@@ -90,6 +107,31 @@ class Empleados {
 
         double aumentoSueldo = sueldo * porcentaje / 100;
         sueldo+=aumentoSueldo;
+
+    }
+
+}
+
+class Jefatura extends Empleados{
+
+    private double incentivo;
+    Jefatura(String nombre, double sueldo, int anio, int mes, int dia){
+
+        super(nombre, sueldo, anio, mes, dia);
+
+    }
+
+    public void estableceIncentivo(double b){
+
+        incentivo=b;
+
+    }
+
+    public double dameSueldo(){
+
+        double sueldoJefe = super.dameSueldo();
+
+        return sueldoJefe + incentivo;
 
     }
 
