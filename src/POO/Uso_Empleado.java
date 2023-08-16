@@ -1,101 +1,101 @@
 package POO;
 
-import javax.swing.*;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
-import static java.lang.Integer.parseInt;
+
 
 public class Uso_Empleado {
+
     public static void main(String[] args) {
 
-        int cantEmpleados = parseInt(JOptionPane.showInputDialog("Cuantos empleados tiene?"));
+        Jefatura jefe_RRHH=new Jefatura("Juan", 55000, 2006, 9, 25);
 
-        Empleados[] misEmpleados = new Empleados[cantEmpleados];
+        jefe_RRHH.estableceIncentivo(2570);
 
-        /* int i = 0; Este codigo busca automatizar la creacion de empleados usando un foreach, como se ve es mas
-        'trabajoso' el hacerlo, por eso al final me decidi por el viejo y confiable for.
+        Empleado[] misEmpleados = new Empleado[6];
 
-        for (Empleados empleado : misEmpleados) {
-            String nombre = JOptionPane.showInputDialog("Ingresa el nombre");
-            double sueldo = Double.parseDouble(JOptionPane.showInputDialog("Ingresa el sueldo"));
-            int anio = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el año"));
-            int mes = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el mes"));
-            int dia = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el día"));
+        misEmpleados[0] = new Empleado("Ana", 30000, 2000, 07, 07);
 
-            empleado = new Empleados(nombre, sueldo, anio, mes, dia);
-            misEmpleados[i] = empleado;
+        misEmpleados[1] = new Empleado("Carlos", 50000, 1995, 06, 15);
 
-            i++;
-        } */
-        Jefatura jefe_RRHH = new Jefatura("Sergio", 1433.34,2023,6,27);
-        jefe_RRHH.estableceIncentivo(500.96);
+        misEmpleados[2] = new Empleado("Paco", 25000, 2005, 9, 25);
 
-        for (int i = 0 ; i < misEmpleados.length; i++){
+        misEmpleados[3] = new Empleado("Antonio", 47500, 2009, 11, 9);
 
-            misEmpleados[i] = new Empleados(JOptionPane.showInputDialog("Ingresa el nombre"),
-                    Double.parseDouble(JOptionPane.showInputDialog("Ingresa el sueldo")),
-                    parseInt(JOptionPane.showInputDialog("Ingresa el anio")),
-                    parseInt(JOptionPane.showInputDialog("Ingresa el mes")),
-                    parseInt(JOptionPane.showInputDialog("Ingresa el día")));
+        misEmpleados[4] = jefe_RRHH;
+
+        misEmpleados[5] = new Jefatura("Maria", 95000, 1999, 5, 26);
+
+
+
+        for(Empleado e:misEmpleados){
+
+            e.subeSueldo(5);
 
         }
 
-        for (Empleados aumentoEmpleado: misEmpleados) {
 
-            aumentoEmpleado.subeSueldo(Double.parseDouble(JOptionPane.showInputDialog("Ingresa el % a aumentar de " +
-                    aumentoEmpleado.dameNombre())));
 
-        }
+        for(Empleado e: misEmpleados){
 
-        for (Empleados datosEmpleados : misEmpleados ){
+            System.out.println("Nombre: " + e.dameNombre()
 
-            System.out.println("Nombre: "+ datosEmpleados.dameNombre() + " | Sueldo: "+datosEmpleados.dameSueldo() +
-                    " | Fecha de Alta: "+  datosEmpleados.dameFechaContrato());
+                    + "Sueldo: " + e.dameSueldo()
+
+                    + "Fecha de Alta: " + e.dameFechaContrato());
 
         }
 
-        //Acá empleamos Sobrecarga (override) de constructores, así que teniamos que usar un nuevo empleado
-        //y ahora mismo el codigo funciona para pasar por todos los parametros, problemas de automatizacion
-        //Se podría poner un condicional para entrar en el Constructor que quiero, pero de momento lo dejare
-        //hardcodeado, si el codigo se agrada le colocare el condicional 😁
 
-        Empleados empleado_que_usa_otro_constructor =new Empleados("Juan");
-        empleado_que_usa_otro_constructor.dameFechaContrato();
+
     }
+
 }
 
-class Empleados {
-    private String nombre;
-    private double sueldo;
-    private Date altaContrato;
-    private static int idSiguiente;
-    private int id;
 
-    public Empleados(String nombre, double sueldo, int anio, int mes, int dia) {
-        this.nombre = nombre;
-        this.sueldo = sueldo;
-        GregorianCalendar calendario = new GregorianCalendar(anio, mes, dia);
-        altaContrato=calendario.getTime();
-        id = idSiguiente;
-        idSiguiente++;
+
+class Empleado{
+
+    public Empleado(String nom, double sue, int agno, int mes, int dia){
+
+        nombre = nom;
+
+        sueldo = sue;
+
+        GregorianCalendar calendario = new GregorianCalendar(agno, mes-1, dia);
+
+        Id = IdSiguiente;
+
+        IdSiguiente++;
+
 
     }
 
-    public Empleados(String nombre){
-        this(nombre,3000,2000,1,1);
+
+
+    public Empleado(String nom){
+
+        this(nom, 30000, 2000, 01, 01);
+
     }
+
+
 
     public String dameNombre(){
 
-        return nombre + " Id: " + id;
+        return nombre + " Id: " + Id;
 
     }
-    public double dameSueldo(){
+
+
+
+    public double dameSueldo(){ //getter
 
         return sueldo;
 
     }
+
+
 
     public Date dameFechaContrato(){
 
@@ -103,29 +103,45 @@ class Empleados {
 
     }
 
+
+
     public void subeSueldo(double porcentaje){
 
-        double aumentoSueldo = sueldo * porcentaje / 100;
-        sueldo+=aumentoSueldo;
+        double aumento = sueldo*porcentaje/100;
+
+        sueldo += aumento;
 
     }
 
+    private String nombre;
+
+    private double sueldo;
+
+    private Date altaContrato;
+
+    private static int IdSiguiente;
+
+    private int Id;
+
 }
 
-class Jefatura extends Empleados{
 
-    private double incentivo;
-    Jefatura(String nombre, double sueldo, int anio, int mes, int dia){
 
-        super(nombre, sueldo, anio, mes, dia);
+class Jefatura extends Empleado{
+
+    public Jefatura(String nom, double sue, int agno, int mes, int dia){
+
+        super(nom, sue, agno, mes, dia);
 
     }
 
     public void estableceIncentivo(double b){
 
-        incentivo=b;
+        incentivo = b;
 
     }
+
+
 
     public double dameSueldo(){
 
@@ -134,5 +150,7 @@ class Jefatura extends Empleados{
         return sueldoJefe + incentivo;
 
     }
+
+    private double incentivo;
 
 }
